@@ -1,0 +1,705 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 95%;
+  
+}
+
+
+body {
+  font-optical-sizing: auto;
+  font-weight: bold;
+  font-style: normal;
+}
+
+
+body {
+  font-family: 'Georgia', 'Times New Roman', Times, serif, cursive;
+  background: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+  background-image: url( IMAGES/fcdc-logo2.png);
+  background-image: linear-gradient(50deg, purple, #fff );
+  background-color: #fff;
+  background-clip: cover;
+  background-repeat: repeat;
+  background-size: 100%;
+  background-attachment: fixed;
+  color: #fff;
+backdrop-filter: opacity(100%) blur(100px) saturate(100px);
+}
+
+header {
+  margin: 0px;
+  padding: 20px;
+  background: purple;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+ 
+}
+
+
+.logo-img {
+  margin: 3px;
+  padding: 3px;
+  border-radius: 90px;
+  width: 155px;
+  height: 155px;
+  box-shadow: 4px 5px 4px 5px black;
+  border: 2px solid #fff;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
+  
+}
+
+figure {
+  margin: 10px;
+  padding: 10px;
+  font-size: 2rem;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-vector {
+   display: flex; 
+   flex-grow: 1;
+   flex-wrap: wrap;
+   align-items: center;
+   justify-content: space-evenly;
+}
+
+
+.vector-img {
+  border-radius: 90%;
+  border: 3px solid #fff;
+  box-shadow: 2px 3px 2px 3px purple;
+}
+
+.powered-by {
+  margin: 10px;
+  padding: 5px;
+  border: 4px dotted blue;
+  background: #fff;
+  border-radius: 20px;
+}
+
+#nca-vector {
+  background: #fff;
+  border: 3px solid #000;
+}
+
+#vision-div {
+  text-align: left;
+  margin: 15px;
+  padding: 15px;
+}
+
+.about-head-color {
+  color: #fff;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.source {
+  margin: 5px;
+  padding: 5px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.source {
+  display: flex;
+  -webkit-line-clamp: 2; /* number of lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.source {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  gap: 1rem; /* Optional spacing between items */
+  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+  scrollbar-width: none; /* hide scrollbar on Firefox */
+}
+
+.source::-webkit-scrollbar {
+  display: none; /* hide scrollbar on Chrome/Safari */
+}
+
+#nav-links {
+  margin: px;
+  padding: px;
+  
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+ #nav-links:hover {
+  border: 2px solid #fff;
+  border-radius: 20px;
+}
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+
+.logo-text {
+    padding: 5px;
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 1.5rem;
+    color: #fff;
+    text-shadow: 2px 5px 3px #000;
+}
+
+.menu-tion {
+    padding: 0px;
+   color: #fff;
+   
+   border-radius: 20px;
+   text-align: center;
+}
+
+
+
+
+
+.menu {
+  margin:3px;
+  padding: 5px;
+  text-align: center;
+  background-color:#fff;
+  border-radius: 80px;
+  height: 80px;
+  width: 80px;
+  border: 1px 2px 1px solid blue;
+  position: relative;
+}
+
+
+
+ a {
+  text-decoration: none;
+  
+}
+
+button {
+  margin: 10px;
+  padding: 10px;
+  color: #000;
+  background-color: #fff;
+  border: 3px solid #000;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: purple;
+  color: #fff;
+  box-shadow: 2px 1px 2px 1px gray;
+  border: 3px solid #fff;
+  
+  
+}
+
+button:active {
+    background-color: blue;
+    color: #fff;
+    box-shadow: 2px 1px 2px 1px black;
+    transform: translateZ(20px);
+    border: 3px solid #fff;
+    
+}
+
+
+
+
+/* CORRECTED CSS */
+.selection {
+  display: grid;
+  flex-wrap: wrap;
+  flex-wrap: 4;
+  align-items: center;
+  justify-content: center;
+  /* Keep transform for animation */
+  transform: translateX(-100%);
+  text-align: center;
+  border-radius: 0px; /* Use 0px to match the screenshot */
+  border: 2px solid #fff;
+  box-shadow: 1px 2px 1px 2px grey;
+  position: fixed; /* Use fixed so it stays in place when scrolling */
+  margin: 0; /* Remove margin to align it perfectly to the side */
+  /* Adjust positioning for side menu */
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  width: 48%;
+  height: 75%;
+  color: #fff;
+  transition: transform 0.5s ease-in-out;
+   /*background-color: ; /* Match parent background */
+    border-radius: 20px;
+    box-shadow: 2px 2px 2px black;
+    padding: 10px;
+    backdrop-filter: blur(100px);
+}
+
+/* Class to show the menu */
+.selection.show {
+  transform: translateX(0);
+}
+
+.selection > a > button, .selection > button {
+  
+    margin: 5px;
+    padding: 5px;
+    width: 80%;
+    height: 48px;
+    font-weight: bolder;
+    font-size: 1rem;
+    text-align: center;
+    box-shadow: 2px 2px 2px gray;
+    
+    
+}
+
+
+
+
+
+.hero {
+  padding: 2rem;
+  text-align: center;
+  background-image: url( IMAGES/cybersec.jpg);
+  background-clip: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  color: #fff;
+backdrop-filter: opacity(100%) blur(100px) saturate(100px);
+ font-size: 1.1rem;
+ font-weight: bolder;
+}
+.hero input {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  width: 80%;
+  max-width: 400px;
+}
+
+
+
+
+
+
+ .marquee {
+   padding: 10px;
+  color: #fff;
+  border: 2px solid ;
+  box-shadow: 2px 3px 2px 3px purple;
+  border-radius: 10px;
+  text-shadow: 5px 5px 5px blue;
+ }
+ 
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+   border-radius: 20px;
+
+}
+.resource-card {
+  text-align: center;
+  background: purple;
+  color: #fff;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 1.5rem;
+  transition: 0.3s ease;
+  border: 2px solid blue;
+  border-radius: 20px;
+  box-shadow: 2px 3px 2px 3px ;
+  column-gap: 3px;
+  row-gap: 3px;
+  font-weight: bolder;
+  font-size: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+.resource-card:hover {
+  box-shadow: 2px 3px 2px 3px #fff;
+}
+
+.view-live {
+  margin: 4px;
+  padding: 5px;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 1px 2px 1px 2px black;
+}
+
+.title-header {
+  font-weight: bolder;
+  font-size: 1rem;
+  color: #fff;
+  background-color: blue;
+  border-radius: 10px;
+}
+
+
+footer {
+  background: purple;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+
+#searchBtn {
+  margin: 5px;
+  padding: 5px;
+  width: 90px;
+  height: 50px;
+  font-weight: bold;
+  font-size: 1.9rem;
+  background: purple ;
+  color: #fff;
+border-top-left-radius: 0px;
+border-bottom-left-radius: 0px;
+border-top-right-radius: 20px;
+border-bottom-right-radius: 20px;
+border: 2px solid #fff;
+box-shadow: 2px 3px 2px 3px blue;
+text-shadow: 2px 3px 5px #fff;
+}
+
+#search {
+  margin: 5px;
+  padding: 5px;
+  width: 2000px;
+  height: 50px;
+  background: #fff;
+  color: purple;
+  border-radius: 20px;
+  border-left: none;
+  border-top-left-radius: 20px;
+ border-bottom-left-radius: 20px;
+ border-top-right-radius: 0px;
+border-bottom-right-radius: 0px;
+  box-shadow: 3px 2px 3px 2px blue;
+  border: 2px solid #fff;
+}
+
+#search:placeholder {
+  color: #fff;
+}
+
+
+.search-bar {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+ 
+}
+
+.road-map {
+  margin: 20px;
+  padding: 10px;
+  text-align: center;
+  color: #fff;
+ background-color: purple;
+  font-size: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: 2px 3px 2px 3px #000;
+  border-radius: 20px;
+  backdrop-filter: blur(100px), saturate(100%);
+}
+
+.Road-maps {
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  align-items: center;
+  justify-content: space-between;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 2px 3px 2px 3px black;
+}
+
+#roadmapImg {
+  display: none;
+}
+
+.img-roadmap {
+  display: grid;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  
+ 
+}
+
+.roadmapBtn {
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  background: blue;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px 2px black;
+  width: 400px;
+  font-weight: bolder;
+}
+
+.appBtn {
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  background: blue;
+  color: #fff;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  box-shadow: 2px 2px 2px 2px black;
+  width: 250px;
+  font-weight: bolder;
+}
+
+.roadmap-header {
+  font-weight: bold;
+  font-size: 2rem;
+  color: #fff;
+  text-shadow: 2px 3px 5px #222;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+  
+}
+
+.backtoTop {
+  position: fixed;
+  margin: 8px;
+  padding: 4px;
+  left: 0px;
+  right: 395px;
+  bottom: 2px;
+  z-index: 1000;
+  width: 100px;
+  height: 150px;
+  font-size: 2.9rem; 
+  text-shadow: 5px 5px 5px  purple;
+  background: none;
+  border: none;
+}
+
+
+.backtoTop:hover {
+border: none;
+background: none;
+border-radius: none;
+outline: none;
+}
+
+#ai {
+  position: fixed;
+  margin: 10px;
+  padding: 10px;
+  left: 530px;
+  right: 0px;
+  bottom: 2px;
+  z-index: 1000;
+  border-radius: 0px;
+  width: 100px;
+  height: 150px;
+  
+}
+
+
+
+#news {
+  margin: px;
+  padding: px;
+  background-image: url( IMAGES/breaking-news.jpeg);
+  background-repeat: repeat;
+  background-clip: center;
+  background-size: 100%;
+  background-attachment: fixed;
+  
+}
+
+.news-container {
+  margin: 0;
+  padding: 0;
+    display: flex;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+    width: 95%;
+    padding: 3px;
+    word-wrap: wrap;
+}
+/* .news-container {
+    /* Use flexbox for a single row */
+   /* display: flex;
+    /* Prevent wrapping to a new line */
+  /*  flex-wrap: nowrap;
+    /* Enable horizontal scrolling */
+    
+    /* Optional: Add a subtle scrollbar and space between articles */
+   /* gap: 20px;
+} */
+
+/* Ensure the articles don't shrink too much */
+.news-article {
+    flex-shrink: 1;
+    width: 300px; /* Or a fixed width */
+}
+
+
+.news-article {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    
+    width: 70%;
+    height: 50%;
+    text-wrap: nowrap;
+    text-overflow: auto;
+    
+}
+
+.article-image {
+    width: 80%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+/* Truncate the title to one or two lines */
+.news-article h1 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* Set to 2 to show up to two lines of text */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Truncate the description to a specific number of lines */
+.news-article p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4; /* Adjust this number to show more or less lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.news-article h1 {
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.news-article p {
+    flex-grow: 1;
+    font-size: 0.9em;
+    color: #555;
+    
+    
+}
+
+.read-more {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: blue;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.read-more:hover {
+    background-color: purple;
+}
+
+@media (max-width: 768px) {
+    .news-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+.about-body {
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  overflow: hidden;
+  font-family: 'Georgia', 'Times New Roman', Times, serif;
+  font-size: rem;
+  font-weight: bold;
+}
+
+.about-head-color {
+  font-size: 1rem;
+  color: #fff;
+}
+
+.about-head-color2 {
+  font-size: 1.9rem;
+  color: #FF0300;
+  text-shadow: 2px 3px 5px #fff;
+}
+
+.star {
+  margin: 5px;
+  padding: 5px;
+  border: 2px solid #fff;
+  border-radius: 20px;
+  color: #fff;
+  background: blue;
+  text-align: center;
+}
+
+
