@@ -30,11 +30,13 @@ Built with dedication to Cyber Security enthusiasts, the **FUTO Cyber Defenders 
 - **JavaScript (DOM manipulation)**
 - **JSON** (for structured data storage)
 
+The site is static and requires no Node.js packages, backend, or build step.
+
 ---
 
 ## 🚀 How to Use
 1. **Clone or download** the repository  
-2. **Open** `index.html` in your browser  
+2. **Serve the project directory over HTTP** or deploy it to a static host such as GitHub Pages or Vercel. Opening `index.html` directly with `file://` can prevent the browser from loading `Resources.json`.  
 3. **Use the search bar** or **browse categories** to find resources on topics like:
    - Malware Analysis  
    - Network Security  

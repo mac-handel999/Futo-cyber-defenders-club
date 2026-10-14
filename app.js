@@ -1,93 +1,112 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const newsContainer = document.getElementById('newsContainer');
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const filterButtons = document.querySelectorAll('.filter-btn');
+  const newsContainer = document.getElementById('newsContainer');
+  const searchInput = document.getElementById('searchInput');
+  const searchButton = document.getElementById('newsSearchBtn');
+  const searchForm = document.getElementById('newsSearchForm');
+  const filterButtons = document.querySelectorAll('.filter-btn');
 
-    // **Replace with your News API Key**
-    const API_KEY = '54dd7a0f2475374bf14b9f3f7925461a';
-    const BASE_URL = 'https://gnews.io/api/v4/search?';
+  if (!newsContainer) return;
 
-    async function fetchNews(query) {
-        // Construct the URL with a dynamic query parameter
-        const url = `${BASE_URL}q=${encodeURIComponent(query)}&lang=en&max=10&apikey=${API_KEY}`;
-        
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                // Check for API-specific errors, like an invalid API key
-                const errorData = await response.json();
-                throw new Error(`HTTP error! Status: ${response.status}, Details: ${errorData.errors ? errorData.errors[0] : 'Unknown error'}`);
-            }
-            const data = await response.json();
-            displayNews(data.articles);
-        } catch (error) {
-            console.error('Error fetching news:', error);
-            newsContainer.innerHTML = `<p>Failed to load news. ${error.message}. Please try again later.</p>`;
-        }
+  const API_KEY = '54dd7a0f2475374bf14b9f3f7925461a';
+  const BASE_URL = 'https://gnews.io/api/v4/search?';
+
+  function setNewsMessage(message) {
+    const status = document.createElement('p');
+    status.className = 'news-status';
+    status.setAttribute('role', 'status');
+    status.textContent = message;
+    newsContainer.replaceChildren(status);
+  }
+
+  function displayNews(articles) {
+    newsContainer.replaceChildren();
+    if (!Array.isArray(articles) || articles.length === 0) {
+      setNewsMessage('No articles found for this topic.');
+      return;
     }
 
-    function displayNews(articles) {
-        newsContainer.innerHTML = '';
-        if (articles.length === 0) {
-            newsContainer.innerHTML = '<p>No articles found for this topic.</p>';
-            return;
+    const fragment = document.createDocumentFragment();
+    articles.forEach((article) => {
+      const card = document.createElement('article');
+      card.className = 'news-article';
+      if (article.image) {
+        const image = document.createElement('img');
+        image.className = 'article-image';
+        image.src = article.image;
+        image.alt = article.title || 'Cybersecurity news';
+        image.loading = 'lazy';
+        image.addEventListener('error', () => image.remove(), { once: true });
+        card.append(image);
+      }
+
+      const title = document.createElement('h2');
+      title.textContent = article.title || 'Untitled article';
+      const description = document.createElement('p');
+      description.textContent = article.description || 'No description available.';
+      const date = document.createElement('p');
+      const publishedDate = article.publishedAt ? new Date(article.publishedAt) : null;
+      date.textContent = publishedDate && !Number.isNaN(publishedDate.getTime())
+        ? publishedDate.toLocaleDateString()
+        : 'Date unavailable';
+      card.append(title, description, date);
+
+      try {
+        const articleUrl = new URL(article.url);
+        if (['http:', 'https:'].includes(articleUrl.protocol)) {
+          const link = document.createElement('a');
+          link.className = 'read-more';
+          link.href = articleUrl.href;
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          link.textContent = 'Read Full Article';
+          card.append(link);
         }
+      } catch {
+        // Omit an article's link when its URL is missing or invalid.
+      }
+      fragment.append(card);
+    });
+    newsContainer.append(fragment);
+  }
 
-        articles.forEach(article => {
-            const articleDiv = document.createElement('div');
-            articleDiv.className = 'news-article';
-            
-            // Handle missing image and use the correct variable name `imageURL`
-            const imageURL = article.image || 'https://via.placeholder.com/400x200?text=No+Image';
-
-            articleDiv.innerHTML = `
-                <img src="${imageURL}" alt="${article.title}" class="article-image">
-                <h1>${article.title}</h1>
-               
-                <br/>
-                <p>${article.description || 'No description available.'}</p>
-               
-                
-                <br/>
-                <p>${article.content|| 'No content available.'}</p>
-                
-                
-                <br/>
-                <p>${new Date(article.publishedAt).toLocaleDateString() || 'No date available.'}</p>
-                <br/>
-                
-                
-                <a href="${article.url}" target="_blank" class="read-more">Read Full Article</a>
-            `;
-            newsContainer.appendChild(articleDiv);
-        });
+  async function fetchNews(query) {
+    const url = `${BASE_URL}q=${encodeURIComponent(query)}&lang=en&max=10&apikey=${API_KEY}`;
+    setNewsMessage('Loading cybersecurity news…');
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (!response.ok) {
+        const detail = Array.isArray(data.errors) ? data.errors[0] : `HTTP ${response.status}`;
+        throw new Error(String(detail));
+      }
+      displayNews(data.articles);
+    } catch (error) {
+      console.error('Error fetching news:', error);
+      setNewsMessage('Failed to load news. Please try again later.');
     }
+  }
 
-    // Initial load: Fetch news for the default keyword "cybersecurity"
-    fetchNews('cybersecurity');
+  fetchNews('cybersecurity');
 
-    // Event listener for the search button
-    searchBtn.addEventListener('click', () => {
-        const query = searchInput.value.trim();
-        if (query) {
-            fetchNews(query);
-            // Remove the active state from all filter buttons when a new search is performed
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-        }
+  if (searchButton && searchInput) {
+    const search = (event) => {
+      event?.preventDefault();
+      const query = searchInput.value.trim();
+      if (query) {
+        fetchNews(query);
+        filterButtons.forEach((button) => button.classList.remove('active'));
+      }
+    };
+    searchForm?.addEventListener('submit', search);
+    if (!searchForm) searchButton.addEventListener('click', search);
+  }
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      filterButtons.forEach((filter) => filter.classList.remove('active'));
+      button.classList.add('active');
+      fetchNews(button.dataset.keyword || 'cybersecurity');
+      if (searchInput) searchInput.value = '';
     });
-
-    // Event listeners for the filter buttons
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Remove 'active' class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Add 'active' class to the clicked button
-            button.classList.add('active');
-            
-            const keyword = button.dataset.keyword;
-            fetchNews(keyword);
-            searchInput.value = ''; // Clear the search input field
-        });
-    });
+  });
 });

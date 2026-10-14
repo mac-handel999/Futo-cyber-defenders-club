@@ -1,110 +1,184 @@
-
-// Corrected JavaScript for menu section
-document.addEventListener('DOMContentLoaded', function() {
-  const menuBtn = document.getElementById('menu-btn');
-  const menuSelection = document.getElementById('menu-selection');
+document.addEventListener('DOMContentLoaded', () => {
+  const themeToggle = document.getElementById('theme-toggle');
+  const menuButton = document.getElementById('menu-btn');
+  const menu = document.getElementById('menu-selection');
   const menuIcon = document.getElementById('menu-icon');
 
-  // Event listener for the menu button click
-  menuBtn.addEventListener('click', function() {
-    // Check if the menu is currently visible (has the 'show' class)
-    if (menuSelection.classList.contains('show')) {
-      // If it's visible, hide it and change the icon back to the hamburger
-      menuSelection.classList.remove('show');
-      menuIcon.src = ' /icons/Hamburger_icon.svg.png';
-      menuIcon.alt = 'Menu';
-    } else {
-      // If it's not visible, show it and change the icon to the cancel symbol
-      menuSelection.classList.add('show');
-      menuIcon.src = ' /icons/cancel-icon.png';
-      menuIcon.alt = 'Close';
+  function applyTheme(theme) {
+    const resolvedTheme = theme === 'light' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', resolvedTheme);
+    if (!themeToggle) return;
+
+    const isLight = resolvedTheme === 'light';
+    themeToggle.setAttribute('aria-pressed', String(isLight));
+    themeToggle.setAttribute('aria-label', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+    themeToggle.title = isLight ? 'Switch to dark mode' : 'Switch to light mode';
+
+    const icon = themeToggle.querySelector('.theme-icon');
+    const label = themeToggle.querySelector('.theme-label');
+    if (icon) icon.textContent = isLight ? '☀️' : '🌙';
+    if (label) label.textContent = isLight ? 'Light' : 'Dark';
+  }
+
+  try {
+    const storedTheme = localStorage.getItem('fcdc-theme');
+    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    const initialTheme = storedTheme || (prefersLight ? 'light' : 'dark');
+    applyTheme(initialTheme);
+  } catch {
+    applyTheme('dark');
+  }
+
+  themeToggle?.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+    applyTheme(nextTheme);
+    try { localStorage.setItem('fcdc-theme', nextTheme); } catch {}
+  });
+
+  function setMenuOpen(isOpen) {
+    if (!menu || !menuButton) return;
+    menu.classList.toggle('show', isOpen);
+    menuButton.setAttribute('aria-expanded', String(isOpen));
+    if (menuIcon) {
+      menuIcon.src = isOpen ? 'icons/cancel-icon.png' : 'icons/Hamburger_icon.svg.png';
+      menuIcon.alt = isOpen ? 'Close menu' : 'Open menu';
+    }
+  }
+
+  menuButton?.addEventListener('click', () => {
+    setMenuOpen(!menu?.classList.contains('show'));
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMenuOpen(false);
+  });
+  document.addEventListener('click', (event) => {
+    if (menu?.classList.contains('show') && !menu.contains(event.target) && !menuButton?.contains(event.target)) {
+      setMenuOpen(false);
     }
   });
-  
-  
 
+  const searchInput = document.getElementById('search');
+  const searchButton = document.getElementById('searchBtn');
+  const resourceContainer = document.getElementById('resource-container');
+  const roadmapImages = document.getElementById('roadmapImg');
+  const roadmapButton = document.querySelector('.roadmapBtn');
 
+  if (searchInput && searchButton && resourceContainer) {
+    let allResources = [];
 
+    function displayResources(resources) {
+      resourceContainer.replaceChildren();
+      if (resources.length === 0) {
+        const message = document.createElement('p');
+        message.className = 'resource-empty';
+        message.textContent = 'No results found. Try another search.';
+        resourceContainer.append(message);
+        return;
+      }
 
-//for the resourses  & search section page
+      const fragment = document.createDocumentFragment();
+      resources.forEach((resource) => {
+        const card = document.createElement('article');
+        card.className = 'resource-card';
 
-//const  Url = "Resources.json";
-let allResources = [];
+        if (typeof resource.image === 'string' && resource.image.trim()) {
+          const image = document.createElement('img');
+          image.src = resource.image.trim();
+          image.alt = resource.title || 'Cybersecurity resource';
+          image.loading = 'lazy';
+          image.addEventListener('error', () => image.remove(), { once: true });
+          card.append(image);
+        }
 
-const searchInput = document.getElementById("search");
-const searchBtn = document.getElementById("searchBtn");
-const container = document.getElementById("resource-container");
+        const title = document.createElement('h2');
+        title.className = 'title-header';
+        title.textContent = resource.title || 'Untitled resource';
+        card.append(title);
 
-// Load data from JSON file
-fetch('Resources.json ')
-  .then(res => res.json())
-  .then(data => {
-    allResources = data;
-  })
-  .catch(err => {
-    console.error("Failed to load resources:", err);
-  });
+        [
+          ['Type', resource.type],
+          ['Platform', resource.platform || resource.platform_or_author],
+          ['Category', resource.category],
+        ].forEach(([label, value]) => {
+          if (!value) return;
+          const detail = document.createElement('p');
+          const strong = document.createElement('strong');
+          strong.textContent = `${label}: `;
+          detail.append(strong, document.createTextNode(String(value)));
+          card.append(detail);
+        });
 
-function displayResources(filteredResources) {
-  container.innerHTML = "";
+        try {
+          const resourceUrl = new URL(resource.link);
+          if (['http:', 'https:'].includes(resourceUrl.protocol)) {
+            const link = document.createElement('a');
+            link.className = 'view-live';
+            link.href = resourceUrl.href;
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+            link.textContent = 'VIEW RESOURCE LIVE';
+            card.append(link);
+          }
+        } catch {
+          // Invalid or missing URLs are omitted rather than rendered as unsafe links.
+        }
+        fragment.append(card);
+      });
+      resourceContainer.append(fragment);
+    }
 
-  if (filteredResources.length === 0) {
-    container.innerHTML = "<p>No results found.</p>";
-    return;
+    async function loadResources() {
+      resourceContainer.setAttribute('aria-live', 'polite');
+      try {
+        const response = await fetch('Resources.json');
+        if (!response.ok) throw new Error(`Resource catalog request failed (${response.status}).`);
+        const resources = await response.json();
+        if (!Array.isArray(resources)) throw new Error('The resource catalog has an invalid format.');
+        allResources = resources;
+      } catch (error) {
+        console.error('Failed to load resources:', error);
+        const message = document.createElement('p');
+        message.className = 'resource-empty';
+        message.textContent = 'Unable to load the resource catalog. Please try again later.';
+        resourceContainer.replaceChildren(message);
+      }
+    }
+
+    function searchResources() {
+      const keyword = searchInput.value.trim().toLocaleLowerCase();
+      if (!keyword) {
+        const message = document.createElement('p');
+        message.className = 'resource-empty';
+        message.textContent = 'Enter a search term to explore the resource catalog.';
+        resourceContainer.replaceChildren(message);
+        searchInput.focus();
+        return;
+      }
+      const matches = allResources.filter((resource) => {
+        const searchable = [resource.title, resource.category, resource.platform, resource.platform_or_author, resource.type]
+          .filter(Boolean)
+          .join(' ')
+          .toLocaleLowerCase();
+        return searchable.includes(keyword);
+      });
+      displayResources(matches);
+    }
+
+    searchButton.addEventListener('click', searchResources);
+    searchInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') searchResources();
+    });
+    loadResources();
   }
 
-  filteredResources.forEach(resource => {
-    const card = document.createElement("div");
-    card.className = "resource-card";
-    card.innerHTML = `
-            <img src="${resource.image}" alt="${resource.title}" width ="180px" height ="180px" style = "border-radius:20px; display:flex; flex-wrap:wrap;
-        align-items:center; justify-content:center; text-align:center;"/>
-      <h1 class="title-header">${resource.title}</h1>
-      <p><strong>Type:</strong> ${resource.type}</p>
-      <p><strong>Platform:</strong> ${resource.platform}</p>
-      <p><strong>Category:</strong> ${resource.category}</p>
-      <a href="${resource.link}" target="_blank" class="view-live"
-     }>VIEW RESOURCE LIVE</a>
-    `;
-    container.appendChild(card);
-  });
-}
-
-// Search logic when button is clicked
-searchBtn.addEventListener("click", () => {
-  const keyword = searchInput.value.trim().toLowerCase();
-  if (keyword === "") {
-    container.innerHTML = "<p>Please enter a search term.</p>";
-    return;
+  if (roadmapImages && roadmapButton) {
+    roadmapButton.setAttribute('aria-expanded', 'false');
+    roadmapButton.addEventListener('click', () => {
+      const isExpanded = roadmapImages.style.display !== 'none';
+      roadmapImages.style.display = isExpanded ? 'none' : 'block';
+      roadmapButton.textContent = isExpanded ? 'Show Roadmap Images' : 'Hide Roadmap Images';
+      roadmapButton.setAttribute('aria-expanded', String(!isExpanded));
+    });
   }
-
-  const filtered = allResources.filter(r =>
-    r.title.toLowerCase().includes(keyword) ||
-    r.category.toLowerCase().includes(keyword)
-  );
-
-  displayResources(filtered);
-}); 
-
-
-//for road map images
-
-const imageShow = document.getElementById('roadmapImg');
-const btn = document.querySelector('.roadmapBtn');
-
-
-
-btn.addEventListener("click", () => {
-  
-  if (btn.innerText == "Show Roadmap Images") {
-    btn.innerText = "Hide Roadmap Images";
-    
-    imageShow.style.display = "block"
-  } else {
-    btn.innerText = "Show Roadmap Images";
-    
-    imageShow.style.display = "none";
-  }
-})
-
 });
